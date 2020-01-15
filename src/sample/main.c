@@ -1,5 +1,6 @@
 #include    <stdio.h>
 #include    <stdlib.h>
+#include <unistd.h>
 #include    <echo_control_mobile.h>
 
 #define SAMPLE_FREQ 8000
@@ -11,8 +12,8 @@ int WebRtcAecTest()
     short near_frame[NN];
     short out_frame[NN];
     void *aecmInst = NULL;
-    FILE *fp_far  = fopen("../media/speaker.pcm", "rb");
-    FILE *fp_near = fopen("../media/micin.pcm", "rb");
+    FILE *fp_far  = fopen("speaker.pcm", "rb");
+    FILE *fp_near = fopen("micin.pcm", "rb");
     FILE *fp_out  = fopen("out.pcm", "wb");
     AecmConfig config;
 
@@ -34,6 +35,7 @@ int WebRtcAecTest()
     while(1) {
         if (NN == fread(far_frame, sizeof(short), NN, fp_far)) {
             fread(near_frame, sizeof(short), NN, fp_near);
+            usleep(20000);
             WebRtcAecm_BufferFarend(aecmInst, far_frame, NN);//对参考声音(回声)的处理
             WebRtcAecm_Process(aecmInst, near_frame, NULL, out_frame, NN, 60);//回声消除
             fwrite(out_frame, sizeof(short), NN, fp_out);
@@ -51,7 +53,8 @@ int WebRtcAecTest()
 
 int main(void)
 {
-    WebRtcAecTest();
+    for (;;)
+        WebRtcAecTest();
     return 0;
 }
 
