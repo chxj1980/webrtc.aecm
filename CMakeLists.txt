@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.5) 
+project(aecm)
+include_directories(${PROJECT_SOURCE_DIR}/src/)
+include_directories(${PROJECT_SOURCE_DIR}/src/aecm)
+file(GLOB_RECURSE SRCS ${PROJECT_SOURCE_DIR}/src/*.c ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/*.cc)
+add_executable(aecm-sample ${SRCS})
+target_link_libraries(aecm-sample pthread)
