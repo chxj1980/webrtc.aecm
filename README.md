@@ -1,2 +1,5 @@
-# webrtc.aecm
-webrtc aec for mobile
+# 编译
+- mkdir build
+- cd build
+- cmake ..
+- make -j10
